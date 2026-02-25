@@ -26,7 +26,7 @@ console.log(shuffledArray);
 // Loon kaardi HTML koodi, kaardi struktuuri jaoks
 function createCard(card) {
   return `
-    <img onclick="showPicture(this)" data-pairId="${card.id}" class="hidden icon" src="${card.icon}">
+    <img onclick="showPicture(this)" draggable="false" data-pairId="${card.id}" class="hidden icon" src="${card.icon}">
   `;
 }
 
@@ -36,6 +36,9 @@ function createCard(card) {
   let card2 = null;
   // Funktsioon kaardi nähtavale toomiseks
   function showPicture(element) {
+
+    if (card1 != null && card2 != null) {return;} // ei lase enne uusi kaarte avada kui eelmsied nullitud
+
     element.classList.remove('hidden');
     element.classList.add('visible');
     // Kui kaart 1 pole määratud, vajutatu = kaart1 else kaart 2.
@@ -43,6 +46,9 @@ function createCard(card) {
     if (!card1) {
       card1 = element;
     } else {
+
+      if (card1 == element){return;} // ei lase määrata ühte ja sama kaarti kui "paari"
+
       card2 = element;
       let result = checkCard(card1, card2);
       // Näitab teadet kui leiti paar. Tühjendab kaart1 ja kaart2 muutujad, kui polnud kaartide paar siis timer ja haihtub
